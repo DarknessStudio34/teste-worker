@@ -15,7 +15,8 @@ function draw() {
 }
 
 function mouseClicked (){
-  
+  if(c == 2) {c = 2}
+  else { c = 1 }
 }
 function li() {
   var worker = new Worker('codes/load-image-worker.js');
