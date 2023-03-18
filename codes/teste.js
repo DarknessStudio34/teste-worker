@@ -25,5 +25,6 @@ function li() {
   worker.onmessage = function(event) {
     graphics.bg = event.data;
     c = 2;
+    console.log('deu')
   };
 }
