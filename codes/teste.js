@@ -3,28 +3,20 @@ var graphics = {};
 
 function setup() {
   createCanvas(800, 360);
+  var canvasElement = document.getElementsByTagName('canvas')[0];
+  canvasElement.addEventListener('click', function() {
+    var worker = new Worker('codes/image-loader-worker.js');
+    worker.postMessage('assets/teste.png');
+    worker.onmessage = function(event) {
+      graphics.bg = event.data;
+      c = 1;
+    };
+  });
 }
 
 function draw() {
   background(220);
   if (c == 1) {
-    li();
-  } else if (c == 2){
-      background(graphics.bg);
-    }
-}
-
-function mouseClicked (){
-  if(c == 2) {c = 2}
-  else { c = 1 }
-}
-function li() {
-  var worker = new Worker('codes/load-image-worker.js');
-  worker.postMessage('assets/teste.png');
-  console.log('funcionando')
-  worker.onmessage = function(event) {
-    graphics.bg = event.data;
-    c = 2;
-    console.log('deu')
-  };
+    background(graphics.bg);
+  }
 }
