@@ -3,7 +3,6 @@ var graphics = {};
 
 function setup() {
   createCanvas(800, 360);
-  mouseClicked(li);
 }
 
 function draw() {
@@ -13,6 +12,9 @@ function draw() {
   }
 }
 
+function mouseClicked (){
+  li();
+}
 function li() {
   var worker = new Worker('codes/load-image-worker.js');
   worker.postMessage('assets/teste.png');
