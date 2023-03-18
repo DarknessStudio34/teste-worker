@@ -1,3 +1,5 @@
+console.log('Worker is running');
+
 function loadImageAsync(src) {
   return new Promise(function(resolve, reject) {
     var img = new Image();
