@@ -8,18 +8,21 @@ function setup() {
 function draw() {
   background(220);
   if (c == 1) {
-    background(graphics.bg);
-  }
+    li();
+  } else if (c == 2){
+      background(graphics.bg);
+    }
 }
 
 function mouseClicked (){
-  li();
+  
 }
 function li() {
   var worker = new Worker('codes/load-image-worker.js');
   worker.postMessage('assets/teste.png');
+  console.log('funcionando')
   worker.onmessage = function(event) {
     graphics.bg = event.data;
-    c = 1;
+    c = 2;
   };
 }
