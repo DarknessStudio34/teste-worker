@@ -1,23 +1,25 @@
-function loadImageAsync(src) {
-  return new Promise(function(resolve, reject) {
-    var img = new Image();
-    img.onload = function() {
-      resolve(img);
-    };
-    img.onerror = function() {
-      reject(new Error('Failed to load image: ' + src));
-    };
-    img.src = src;
-  });
-}
-
-self.onmessage = function(event) {
-  loadImageAsync(event.data).then(function(img) {
-    var canvas = new OffscreenCanvas(img.width, img.height);
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    self.postMessage(canvas.transferToImageBitmap());
-  }).catch(function(error) {
-    console.error(error);
-  });
+onmessage = function(event) {
+  var src = event.data;
+  fetch(src)
+    .then(function(response) {
+      return response.blob();
+    })
+    .then(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var img = new Image();
+      img.onload = function() {
+        URL.revokeObjectURL(url);
+        postMessage(img);
+      };
+      img.onerror = function() {
+        URL.revokeObjectURL(url);
+        postMessage(null);
+      };
+      img.src = url;
+    })
+    .catch(function(error) {
+      console.error(error);
+      postMessage(null);
+    });
 };
+
